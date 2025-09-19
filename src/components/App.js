@@ -1,9 +1,7 @@
-import React,{useState,useEffect} from "react";
-import "regenerator-runtime/runtime"
+import React, { useState, useEffect } from "react";
 import Loading from "./Loading";
 import Tours from "./Tours";
-
-const url = "https://course-api.com/react-tours-project";
+import toursData from "../data/toursData";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -15,19 +13,12 @@ const App = () => {
   };
 
   const fetchTours = () => {
-  setLoading(true);
-  fetch(url)
-    .then((res) => res.json())
-    .then((tours) => {
-      setTours(tours);
+    setLoading(true);
+    setTimeout(() => {
+      setTours(toursData); // load local data
       setLoading(false);
-    })
-    .catch((err) => {
-      console.log(err);
-      setLoading(false);
-    });
-};
-
+    }, 500); // simulate network delay
+  };
 
   useEffect(() => {
     fetchTours();
@@ -35,7 +26,7 @@ const App = () => {
 
   if (loading) {
     return (
-      <main>
+      <main id="main">
         <Loading />
       </main>
     );
@@ -43,10 +34,10 @@ const App = () => {
 
   if (tours.length === 0) {
     return (
-      <main>
+      <main id="main">
         <div className="title">
           <h2>No Tours Left</h2>
-          <button onClick={fetchTours} className="btn">
+          <button onClick={fetchTours} className="btn" id="refresh-btn">
             Refresh
           </button>
         </div>
@@ -55,9 +46,10 @@ const App = () => {
   }
 
   return (
-    <main>
+    <main id="main">
       <Tours tours={tours} removeTour={removeTour} />
     </main>
   );
 };
+
 export default App;
