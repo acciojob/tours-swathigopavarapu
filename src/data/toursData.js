@@ -35,5 +35,4 @@ const tours =
         "price":"2,595"
     }
 ]
-
 export default tours;
